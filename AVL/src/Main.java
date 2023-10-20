@@ -22,9 +22,13 @@ public class Main {
         bst.addNode(12);
         bst.printPreOrder();
         bst.evaluateBalance(bst.getRoot());
-        System.out.println(bst.deleteNode(9));
+        bst.deleteNode(9);
         bst.printPreOrder();
-        System.out.println(bst.deleteNode(1));
+        bst.deleteNode(1);
+        bst.printPreOrder();
+        bst.deleteNode(10);
+        bst.deleteNode(12);
+        bst.deleteNode(8);
         bst.printPreOrder();
         /*Person p1 = new Person("123", "Juan");
         Person p2 = new Person("122", "Carlos");

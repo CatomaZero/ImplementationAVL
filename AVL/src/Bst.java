@@ -78,7 +78,7 @@ public class Bst<E extends Comparable<E>> {
     public String deleteNode(E element) {
         String mss = "";
         if (search(element) != null) {
-            System.out.println(deleteNode(root, element).getElement());
+            deleteNode(root, element);
             evaluateBalance(root);
             mss = "We found the element and it gets deleted from the tree";
             size--;
@@ -190,15 +190,15 @@ public class Bst<E extends Comparable<E>> {
 
         if (balanceFactor > 1) {
             int rightEvaluation=evaluateBalance(pointer.getRight());
-            if (rightEvaluation < 0) {
-                doubleRotationLeft(pointer);
+            if (rightEvaluation <0) {
+                doubleRotationRight(pointer);
             } else if (rightEvaluation<2) {
                 simpleRotationLeft(pointer);
             }
         } else if (balanceFactor < -1) {
             int leftEvaluation=evaluateBalance(pointer.getLeft());
-            if (leftEvaluation > 0) {
-                doubleRotationRight(pointer);
+            if (leftEvaluation>0) {
+                doubleRotationLeft(pointer);
             } else if (leftEvaluation>-2) {
                 simpleRotationRight(pointer);
             }
@@ -208,7 +208,6 @@ public class Bst<E extends Comparable<E>> {
 
     public void simpleRotationLeft(Node<E> pointer) {
         System.out.println("Necesita una rotación simple a la izquierda");
-        System.out.println(pointer);
         Node<E> leftNode = pointer.getLeft();
         Node<E> rightNode = pointer.getRight();
 
@@ -217,6 +216,7 @@ public class Bst<E extends Comparable<E>> {
             rightNode.setLeft(pointer);
             if (pointer.getParent() == null) {
                 root = rightNode;
+                rightNode.setParent(null);
             } else {
                 rightNode.setParent(pointer.getParent());
                 pointer.getParent().setRight(rightNode);
@@ -225,10 +225,10 @@ public class Bst<E extends Comparable<E>> {
         } else {
             pointer.setRight(rightNode.getLeft());
             leftNode.setParent(pointer);
-            pointer.setLeft(leftNode);
             rightNode.setLeft(pointer);
             if (pointer.getParent() == null) {
                 root = rightNode;
+                rightNode.setParent(null);
             } else {
                 rightNode.setParent(pointer.getParent());
                 pointer.getParent().setRight(rightNode);
@@ -239,48 +239,48 @@ public class Bst<E extends Comparable<E>> {
 
     public void simpleRotationRight(Node<E> pointer) {
         System.out.println("Necesita una rotación simple a la derecha");
-        System.out.println(pointer);
-        if (pointer != null) {
-            Node<E> leftNode = pointer.getLeft();
-            Node<E> rightNode = pointer.getRight();
+        Node<E> leftNode = pointer.getLeft();
+        Node<E> rightNode = pointer.getRight();
 
-            if (rightNode == null) {
-                pointer.setLeft(leftNode.getRight());
-                leftNode.setRight(pointer);
-                if (pointer.getParent() == null) {
-                    root = leftNode;
-                } else {
-                    leftNode.setParent(pointer.getParent());
-                    pointer.getParent().setLeft(leftNode);
-                }
-                pointer.setParent(leftNode);
+        if (rightNode == null) {
+            pointer.setLeft(leftNode.getRight());
+            leftNode.setRight(pointer);
+            if (pointer.getParent() == null) {
+                root = leftNode;
+                leftNode.setParent(null);
             } else {
-                pointer.setLeft(leftNode.getRight());
-                rightNode.setParent(pointer);
-                pointer.setRight(rightNode);
-                leftNode.setRight(pointer);
-                if (pointer.getParent() == null) {
-                    root = leftNode;
-                } else {
-                    leftNode.setParent(pointer.getParent());
-                    pointer.getParent().setLeft(leftNode);
-                }
-                pointer.setParent(leftNode);
+                leftNode.setParent(pointer.getParent());
+                pointer.getParent().setRight(leftNode);
             }
+            pointer.setParent(leftNode);
+        } else {
+            pointer.setLeft(leftNode.getRight());
+            rightNode.setParent(pointer);
+            leftNode.setRight(pointer);
+            if (pointer.getParent() == null) {
+                root = leftNode;
+                leftNode.setParent(null);
+            } else {
+                leftNode.setParent(pointer.getParent());
+                pointer.getParent().setRight(leftNode);
+            }
+            pointer.setParent(leftNode);
         }
     }
 
     public void doubleRotationLeft(Node<E> pointer) {
-        System.out.println("Necesita un rotacion doble a la izquiera");
-        simpleRotationRight(pointer.getLeft());
-        simpleRotationLeft(pointer);
+        System.out.println("Necesita una rotación doble a la izquierda");
+        simpleRotationLeft(pointer.getLeft());
+        simpleRotationRight(pointer);
+
     }
 
     public void doubleRotationRight(Node<E> pointer) {
-        System.out.println("Necesita un rotacion doble a la derecha");
-        simpleRotationLeft(pointer.getRight());
-        simpleRotationRight(pointer);
+        System.out.println("Necesita una rotación doble a la derecha");
+        simpleRotationRight(pointer.getRight());
+        simpleRotationLeft(pointer);
     }
+
 
     public Node<E> getRoot() {
         return root;
